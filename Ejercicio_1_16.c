@@ -6,56 +6,72 @@ la longitud de líneas de entrada arbitrareamente largas, y tanto texto como sea 
 
 #include <stdio.h>
 
-#define MAXLINE ((unsigned int)1000)  /* tamaño máximo de la línea de entrada */
+#define MAXLINE ((unsigned int)10)  /* tamaño máximo de la línea de entrada */
 
-int iGetline(char line[], int maxline);
+int intGetline(char line[], int maxline);
 void copy(char to[], char from[]);
 
 /* imprime la línea de entrada más larga */
 main()
 {
     /*VARIABLE DECLARATIONS*/
-    int iLength;                /* longitud actual de la línea */
-    int iMax;                /* máxima logitud vista hasta el momento */
-    char acLine[MAXLINE];    /* línea de entrada actual */
-    char acLongest[MAXLINE]; /* la línea más larga se guarda aquí */
+    int intLength;                /* longitud actual de la línea */
+    int iMax;                   /* máxima logitud vista hasta el momento */
+    int iGetCharValue;
+    char acLine[MAXLINE];       /* línea de entrada actual */
+    char acLongest[MAXLINE];    /* la línea más larga se guarda aquí */
 
     /*INITIALIZATIONS*/
     iMax = 0;
 
     /*MAIN LOGIC*/
-    while((iLength = iGetline(acLine, MAXLINE)) > 0)
-        if(iLength > iMax) {
-            iMax = iLength;
+    do {
+        intLength = intGetline(acLine, MAXLINE);
+
+        /**Obtiene caracteres de líneas arbitrariamente largas**/
+        if(intLength == MAXLINE - 1)
+        {
+            iGetCharValue = getchar();
+            while((iGetCharValue != EOF) && (iGetCharValue != '\n'))
+            {
+                intLength++;
+                iGetCharValue = getchar();
+            }
+        }
+        /******************************************************/
+
+        if(intLength > iMax) {
+            iMax = intLength;
             copy(acLongest, acLine);
         }
-    if(iMax > 0)      /* hubo una línea */
-        printf("%s", acLongest);
-
+    } while(intLength > 0);
+        
+    if(iMax > 0) {/* hubo una línea */
+        printf("%s\n", acLongest);
+       printf("Max Length: %d\n", iMax);
+    }
     
     return 0;
 }
 
 /* getline: lee una línea en s, regresa su longitud */
-int iGetline(char acInputString[], int iInputStringLimit)
+int intGetline(char acInputString[], int iInputStringLimit)
 {
     /*VARIABLE DECLARATIONS*/
-    int iInputChar, iIndex;
+    int intInputChar;
+    int intIndex = 0;
 
     /*MAIN LOGIC*/
-    iInputChar = getchar();
-    for(iIndex = 0; (iInputChar < iInputStringLimit-1) && (iInputChar != EOF) && (iInputChar != '\n'); ++iIndex) {
-        acInputString[iIndex] = iInputChar;
-        iInputChar = getchar();
+    intInputChar = getchar();
+    for( ;(intIndex < iInputStringLimit-1) && (intInputChar != EOF) && (intInputChar != '\n'); intIndex++) {
+        acInputString[intIndex] = intInputChar;
+        intInputChar = getchar();
+        
     }
-    if( iInputChar == '\n') {
-        acInputString[iIndex] = iInputChar;
-        ++iIndex;
-    }
-    acInputString[iIndex] = '\0';
-    
-    
-    return iIndex;
+
+    acInputString[intIndex] = '\0';
+        
+    return intIndex;
 }
 
 /*copy: copia 'from' en 'to'; supone que to es suficientemente grande */
@@ -68,7 +84,7 @@ void copy(char to[], char from[])
     iIndex = 0;
     to[iIndex] = from[iIndex];
     while(to[iIndex] != '\0') {
-        ++iIndex;
+        iIndex++;
         to[iIndex] = from[iIndex];
     }
 }
