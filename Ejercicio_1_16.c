@@ -5,52 +5,70 @@ la longitud de líneas de entrada arbitrareamente largas, y tanto texto como sea 
 */
 
 #include <stdio.h>
-#define MAXLINE 1000  /* tamaño máximo de la línea de entrada */
-int getline(char line[], int maxline);
+
+#define MAXLINE ((unsigned int)1000)  /* tamaño máximo de la línea de entrada */
+
+int iGetline(char line[], int maxline);
 void copy(char to[], char from[]);
 
 /* imprime la línea de entrada más larga */
 main()
 {
-    int len;               /* longitud actual de la línea */
-    int max;               /* máxima logitud vista hasta el momento */
-    char line[MAXLINE];    /* línea de entrada actual */
-    char longest[MAXLINE]; /* la línea más larga se guarda aquí */
+    /*VARIABLE DECLARATIONS*/
+    int iLength;                /* longitud actual de la línea */
+    int iMax;                /* máxima logitud vista hasta el momento */
+    char acLine[MAXLINE];    /* línea de entrada actual */
+    char acLongest[MAXLINE]; /* la línea más larga se guarda aquí */
 
-    max = 0;
-    while((len = getline(line, MAXLINE)) > 0)
-        if(len > max) {
-            max = len;
-            copy(longest, line);
+    /*INITIALIZATIONS*/
+    iMax = 0;
+
+    /*MAIN LOGIC*/
+    while((iLength = iGetline(acLine, MAXLINE)) > 0)
+        if(iLength > iMax) {
+            iMax = iLength;
+            copy(acLongest, acLine);
         }
-    if(max > 0)      /* hubo una línea */
-        printf("%s", longest);
+    if(iMax > 0)      /* hubo una línea */
+        printf("%s", acLongest);
 
+    
     return 0;
 }
 
 /* getline: lee una línea en s, regresa su longitud */
-int getline(char s[], int lim)
+int iGetline(char acInputString[], int iInputStringLimit)
 {
-    int c, i;
+    /*VARIABLE DECLARATIONS*/
+    int iInputChar, iIndex;
 
-    for(i = 0; i < lim-1 && (c = getchar()) != EOF && c != '\n'; ++i)
-        s[i] = c;
-    if( c == '\n') {
-        s[i] = c;
-        ++i;
+    /*MAIN LOGIC*/
+    iInputChar = getchar();
+    for(iIndex = 0; (iInputChar < iInputStringLimit-1) && (iInputChar != EOF) && (iInputChar != '\n'); ++iIndex) {
+        acInputString[iIndex] = iInputChar;
+        iInputChar = getchar();
     }
-    s[i] = '\0';
-    return i;
+    if( iInputChar == '\n') {
+        acInputString[iIndex] = iInputChar;
+        ++iIndex;
+    }
+    acInputString[iIndex] = '\0';
+    
+    
+    return iIndex;
 }
 
 /*copy: copia 'from' en 'to'; supone que to es suficientemente grande */
 void copy(char to[], char from[])
 {
-    int i;
+    /*VARIABLE DECLARATIONS*/
+    int iIndex;
 
-    i = 0;
-    while((to[i] = from[i]) != '\0')
-        ++i;
-
+    /*MAIN LOGIC*/
+    iIndex = 0;
+    to[iIndex] = from[iIndex];
+    while(to[iIndex] != '\0') {
+        ++iIndex;
+        to[iIndex] = from[iIndex];
+    }
 }
