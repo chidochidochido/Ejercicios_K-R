@@ -10,7 +10,7 @@ para alcanzar un paro de tabulación, ¿a cuál se le debe dar preferencia?
 
 #define TRUE ((unsigned char)1)
 #define FALSE ((unsigned char)0)
-#define SPACES_WITHIN_TAB ((unsigned int) 8)
+#define SPACES_WITHIN_TAB ((unsigned int) 7)
 
 void printStringCharacters(char [], int);
 void printTabWithSpaces(int);
@@ -19,23 +19,20 @@ int  intCountSpaces(char [], int, int);
 
 main()
 { 
-    char charInputString[] = "a       abcd";
+    char charInputString[] = "ab      cd";    
     printStringCharacters(charInputString, sizeof(charInputString)/sizeof(char));
-    printf("a\tabcd");
+    printf("ab\tcd\n");
 }
 
 void printStringCharacters(char charTestString[], int intSizeTestString)
 {
     unsigned int intIndexCharTestString;
-    unsigned int intCharactersWithinTab;
     unsigned int intContinuousNumSpaces;
     unsigned int intNumTabs;
     unsigned int intNumSpaces;
-    unsigned int intNumSpacesIndex;
     unsigned int intPrintTabsIndex;
     unsigned int intPrintSpacesIndex;
 
-    intCharactersWithinTab = 0;
     intContinuousNumSpaces = 0;
 
     for(intIndexCharTestString = 0; intIndexCharTestString < intSizeTestString; intIndexCharTestString++)
@@ -57,32 +54,7 @@ void printStringCharacters(char charTestString[], int intSizeTestString)
                 printf(" ");
             
             printf("%c", charTestString[intIndexCharTestString]);
-            intCharactersWithinTab++;
         }
     }
     printf("\n");
-}
-
-
-
-int intCountSpaces(char charInputTestString[], int intSizeInputTestString, int intIndexCharInputTestString)
-{
-    int intSpaceCounter = 0;
-
-    while((intIndexCharInputTestString < intSizeInputTestString) && (charInputTestString[intIndexCharInputTestString] == ' '))
-    {
-        intSpaceCounter++;
-    }
-}
-
-void printTabWithSpaces(char charTestString[], int intSizeTestString, int intCharactersWithinTab)
-{ 
-    int intPrintSpacesIndex;
-    int numSpacesToPrintForTab;
-    
-    numSpacesToPrintForTab = SPACES_WITHIN_TAB - intCharactersWithinTab;
-    for(intPrintSpacesIndex = 0; intPrintSpacesIndex < numSpacesToPrintForTab; intPrintSpacesIndex++)
-    {
-        printf(" ");
-    }
 }
