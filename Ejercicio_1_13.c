@@ -5,6 +5,8 @@ palabras de su entrada. Es fácil dibujar el histograma con las barras
 horizontales; la orientación vertical es un reto mas interesante.
 */
 
+/*TODO: Impresión vertical*/
+
 #include <stdio.h>
 
 #define IN  1   /* en una palabra */
@@ -17,13 +19,14 @@ main()
     int  intState;
     int  intNumCharInWord;
     int  intIndexArrayLongitudPalabras;
-    int  intIndexHistogram;
     int  intArrayLongitudPalabras[10] = {0};
-
+    int  intMaxOccurrences;
+    int  intSearchIndexWithMaxOcurrences;
+    int  intIndexHistogramOccurrences;
     /* INITIALIZATIONS */
     intState = IN;
     intNumCharInWord = 0;
-    intIndexArrayLongitudPalabras = 0;
+    intIndexArrayLongitudPalabras = 1;
   
     /* MAIN LOGIC */
     while((charUserInput = getchar()) != EOF) {
@@ -40,18 +43,31 @@ main()
         }
     }
 
-    /* OUTPUT */
-    while(intIndexArrayLongitudPalabras < sizeof(intArrayLongitudPalabras)/sizeof(int)) {
-        printf("%d ", intIndexArrayLongitudPalabras);
-        
-        intIndexHistogram = 0;
-        while(intIndexHistogram < intArrayLongitudPalabras[intIndexArrayLongitudPalabras])
+    intMaxOccurrences = 0;
+    for(intSearchIndexWithMaxOcurrences = 0; intSearchIndexWithMaxOcurrences < sizeof(intArrayLongitudPalabras) / sizeof(int); intSearchIndexWithMaxOcurrences++)
+    {
+        if(intMaxOccurrences < intArrayLongitudPalabras[intSearchIndexWithMaxOcurrences])
         {
-            printf("*");
-            intIndexHistogram++;
+            intMaxOccurrences = intArrayLongitudPalabras[intSearchIndexWithMaxOcurrences];
+        }
+    }
+
+
+    /* OUTPUT */
+    for(intIndexHistogramOccurrences = intMaxOccurrences; intIndexHistogramOccurrences > 0; intIndexHistogramOccurrences--)
+    {
+        for(intIndexArrayLongitudPalabras = 1; intIndexArrayLongitudPalabras <= sizeof(intArrayLongitudPalabras)/sizeof(int); intIndexArrayLongitudPalabras++)
+        {
+            if(intArrayLongitudPalabras[intIndexArrayLongitudPalabras] >= intIndexHistogramOccurrences)
+            {
+                printf("*\t");
+            }
+            else
+            {
+                printf("\t");
+            }
         }
         printf("\n");
-
-        intIndexArrayLongitudPalabras++;
     }
+    printf("1\t2\t3\t4\t5\t6\t7\t8\t9\n");
 }
