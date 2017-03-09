@@ -5,8 +5,6 @@ palabras de su entrada. Es fácil dibujar el histograma con las barras
 horizontales; la orientación vertical es un reto mas interesante.
 */
 
-/*TODO: Impresión vertical*/
-
 #include <stdio.h>
 
 #define IN  1   /* en una palabra */
